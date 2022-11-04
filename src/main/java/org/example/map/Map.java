@@ -2,8 +2,7 @@ package org.example.map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import lombok.NonNull;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -36,12 +35,31 @@ public class Map {
 
     // вывод полей в терминал
     public void PrintInConsole() {
+        System.out.print(" ");
+        for (int j = 0; j < 10; j++) {
+            System.out.print("  " + j + "  │");
+        }
+        System.out.print("\t\t\t");
+        for (int j = 0; j < 10; j++) {
+            System.out.print("  " + j + "  │");
+        }
+        System.out.println();
+
+        for (int j =0; j < 10; j ++) {
+            System.out.print("──────");
+        }
+        System.out.print("\t\t\t");
+        for (int j =0; j < 10; j ++) {
+            System.out.print("──────");
+        }
+        System.out.println();
+
         for (int i = 0; i < 10; i++) {
-            System.out.print("│ ");
+            System.out.print(i + "│ ");
             for (int j = 0; j < 10; j++) {
                 System.out.print(myMap[i][j] + "  │  ");
             }
-            System.out.print("\t\t\t│ ");
+            System.out.print("\t\t\t" + i + "│ ");
             for (int j = 0; j < 10; j++) {
                 System.out.print(otherMap[i][j] + "  │  ");
             }
@@ -60,7 +78,7 @@ public class Map {
     }
 
     // полученние массива координат пораженных при выстреле по моему полю
-    public HashSet<Coord_Char> Hit(@NotNull Coord coord) {
+    public HashSet<Coord_Char> Hit(@NonNull Coord coord) {
         HashSet<Coord_Char> res = new HashSet<Coord_Char>();
         if (myMap[coord.y][coord.x] >= '0' && myMap[coord.y][coord.x] <= '9') {
             res.add(new Coord_Char(coord.x, coord.y, 'X'));
@@ -104,7 +122,7 @@ public class Map {
     }
 
     // отображение урона нанесенного мной по противнику
-    public void Damage(@NotNull HashSet<Coord_Char> coords) {
+    public void Damage(@NonNull HashSet<Coord_Char> coords) {
         for (Coord_Char coord : coords)
         {
             otherMap[coord.y][coord.x] = coord.ch;
@@ -115,8 +133,8 @@ public class Map {
     public Boolean isLose() {
         return ships.size() == 0;
     }
-    public void Load(@NotNull String file_name) {
-        String json = readFile("src/main/resources/test.json");
+    public void Load(@NonNull String file_name) {
+        String json = readFile(file_name);
         JsonMap jmap;
         if ((jmap = Deserialize(json)) == null) {
             System.err.println("ERROR in read json file");
@@ -132,7 +150,7 @@ public class Map {
             }
         }
     }
-    private static @Nullable String readFile(@NotNull String fileName) {
+    private static String readFile(@NonNull String fileName) {
         StringBuilder json = new StringBuilder();
         try {
             FileReader fr = new FileReader(fileName);
@@ -148,7 +166,7 @@ public class Map {
         }
         return json.toString();
     }
-    private static @Nullable JsonMap Deserialize(@NotNull String jsonString) {
+    private static JsonMap Deserialize(@NonNull String jsonString) {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonMap map = null;
