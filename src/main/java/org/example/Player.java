@@ -16,9 +16,9 @@ public class Player {
         Scanner scanner = new Scanner(System.in);
         Web web;
         System.out.print("Input your step 1/2: ");
-        int ind = scanner.nextInt();
+        int currentStep = scanner.nextInt();
 
-        if (ind == 1) {
+        if (currentStep == 1) {
             System.out.println("Wait....");
             web = new Web(Web.Type.SERVER, 2344, "localhost");
         }
@@ -35,9 +35,9 @@ public class Player {
         steps[3] = game::Print;
 
 
-        ind = (ind * 2 + 3) % 4;
-        while (steps[ind].execute(map,web, scanner)) {
-            ind = (ind + 1) % 4;
+        currentStep = (currentStep == 2) ? 3 : 1;
+        while (steps[currentStep].execute(map, web, scanner)) {
+            currentStep = (currentStep + 1) % 4;
         }
     }
 }
